@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <pthread.h>
 
+#include "client.h"
+#include "server.h"
+
 void *ClientThreadEntry(void *param)
 {
 #ifdef DEBUG
@@ -8,6 +11,7 @@ void *ClientThreadEntry(void *param)
     
     printf("[DEBUG] %u in ClientThreadEntry(%s, %i)\n", (unsigned)selfThread.x, __FILE__, __LINE__);
 #endif
+    ClientInit();
     return param;
 }
 
@@ -18,6 +22,7 @@ void *ServerThreadEntry(void *param)
 
     printf("[DEBUG] %u in ServerThreadEntry(%s, %i)\n", (unsigned)selfThread.x, __FILE__, __LINE__);
 #endif
+    ServerInit();
     return param;
 }
 
