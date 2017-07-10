@@ -4,6 +4,7 @@
 #include <errno.h>
 
 #include "config.h"
+#include "common.h"
 #include "strings.h"
 
 int LoadConfigFile(const char *filename, Configuration_t *c)
