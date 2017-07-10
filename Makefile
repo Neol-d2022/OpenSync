@@ -4,7 +4,7 @@ CFLAGS=-Wall -Wextra -Ofast
 LFLAGS=
 
 OBJS=main.o client.o server.o common.o config.o strings.o
-DEPS=
+DEPS=client.h server.h common.h config.h strings.h
 LIBS=-lpthread
 
 BIN=OpenSync
