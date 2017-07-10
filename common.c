@@ -6,6 +6,8 @@
 
 #include <pthread.h>
 
+#include "config.h"
+
 static void _MemoryRequestFailed(size_t size, const char *sourceFile, unsigned int lineNumber)
 {
     fprintf(stderr, "[CRITICAL] Memory Request Failed.\n");
@@ -107,4 +109,34 @@ int isDir(unsigned short mask)
 int isFile(unsigned short mask)
 {
     return ((mask)&_S_IFMT) & _S_IFREG ? 1 : 0;
+}
+
+void ConcatPath(char *buf, const char *name)
+{
+    size_t len = strlen(buf);
+    char _kPathSeparator[2];
+
+    _kPathSeparator[0] = kPathSeparator;
+    _kPathSeparator[1] = '\0';
+    if (len > 0)
+    {
+        if (buf[len - 1] != kPathSeparator)
+        {
+            if (len + 1 < FILENAME_MAX)
+            {
+                strcat(buf, _kPathSeparator);
+                len = strlen(buf);
+            }
+            else
+            {
+                buf[0] = '\0';
+                return;
+            }
+        }
+
+        if (len + strlen(name) < FILENAME_MAX)
+            strcat(buf, name);
+        else
+            buf[0] = '\0';
+    }
 }

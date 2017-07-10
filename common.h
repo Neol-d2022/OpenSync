@@ -18,4 +18,6 @@ void time2tm(const time_t *timer, struct tm *t);
 int isDir(unsigned short mask);
 int isFile(unsigned short mask);
 
+void ConcatPath(char *buf, const char *name);
+
 #endif
