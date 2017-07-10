@@ -4,8 +4,11 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+int InitCommon(void);
+
 void *MemoryRequest(size_t size);
 void MemoryRelease(void *ptr);
+unsigned int _DebugGetReleaseCounter(void);
 
 unsigned long GetThreadID(pthread_t thread);
 

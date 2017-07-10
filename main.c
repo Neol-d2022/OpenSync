@@ -33,6 +33,8 @@ int main(void)
     pthread_t clientThread, serverThread;
     int retCode;
 
+    InitCommon();
+
     retCode = pthread_create(&clientThread, NULL, ClientThreadEntry, NULL);
     if (retCode)
     {

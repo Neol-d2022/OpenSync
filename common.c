@@ -12,23 +12,71 @@ static void _MemoryRequestFailed(size_t size, const char *sourceFile, unsigned i
     exit(1);
 }
 
+static pthread_rwlock_t _rwl_releaseCounter;
 static unsigned int _releaseCounter = 0;
+
+int InitCommon(void)
+{
+    return pthread_rwlock_init(&_rwl_releaseCounter, 0);
+}
 
 void *MemoryRequest(size_t size, const char *sourceFile, unsigned int lineNumber)
 {
     void *ptr;
 
-    _releaseCounter += 1;
     ptr = malloc(size);
     if (!ptr)
         _MemoryRequestFailed(size, sourceFile, lineNumber);
+
+    if (pthread_rwlock_wrlock(&_rwl_releaseCounter) == 0)
+    {
+        _releaseCounter += 1;
+        pthread_rwlock_unlock(&_rwl_releaseCounter);
+    }
+    else
+    {
+#ifdef DEBUG
+        fprintf(stderr, "[ERROR] RW Lock failed.\n");
+#endif
+    }
+
     return ptr;
 }
 
 void MemoryRelease(void *ptr)
 {
-    _releaseCounter -= 1;
     free(ptr);
+
+    if (pthread_rwlock_wrlock(&_rwl_releaseCounter) == 0)
+    {
+        _releaseCounter -= 1;
+        pthread_rwlock_unlock(&_rwl_releaseCounter);
+    }
+    else
+    {
+#ifdef DEBUG
+        fprintf(stderr, "[ERROR] RW Lock failed.\n");
+#endif
+    }
+}
+
+unsigned int _DebugGetReleaseCounter(void)
+{
+    unsigned int r = 0;
+
+    if (pthread_rwlock_rdlock(&_rwl_releaseCounter) == 0)
+    {
+        r = _releaseCounter;
+        pthread_rwlock_unlock(&_rwl_releaseCounter);
+    }
+    else
+    {
+#ifdef DEBUG
+        fprintf(stderr, "[ERROR] RW Lock failed.\n");
+#endif
+    }
+
+    return r;
 }
 
 unsigned long GetThreadID(pthread_t thread)
