@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <pthread.h>
 
@@ -81,5 +82,7 @@ unsigned int _DebugGetReleaseCounter(void)
 
 unsigned long GetThreadID(pthread_t thread)
 {
-    return (unsigned long)thread;
+    unsigned long ret = 0;
+    memcpy(&ret, &thread, sizeof(thread));
+    return ret;
 }
