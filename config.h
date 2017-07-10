@@ -9,6 +9,8 @@ typedef struct
     unsigned char functionFlag;
 } Configuration_t;
 
+extern const char kPathSeparator;
+
 int LoadConfigFile(const char *filename, Configuration_t *c);
 
 int IsClientEnabled(const Configuration_t *c);

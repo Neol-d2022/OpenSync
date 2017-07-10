@@ -7,6 +7,13 @@
 #include "common.h"
 #include "strings.h"
 
+const char kPathSeparator =
+#ifdef _WIN32
+    '\\';
+#else
+    '/';
+#endif
+
 int LoadConfigFile(const char *filename, Configuration_t *c)
 {
     char buf[256];
