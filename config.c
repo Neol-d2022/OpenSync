@@ -41,7 +41,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
 
         if (ntokens == 2)
         {
-            if (strcmp(tokens[0], "Client"))
+            if (strcmp(tokens[0], "Client") == 0)
             {
                 if (sscanf(tokens[1], "%u", &in) == 1)
                 {
@@ -61,7 +61,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
                     fprintf(stderr, "[ERROR] line %u, format error.\n", lincCount);
                 }
             }
-            else if (strcmp(tokens[0], "Server"))
+            else if (strcmp(tokens[0], "Server") == 0)
             {
                 if (sscanf(tokens[1], "%u", &in) == 1)
                 {
@@ -81,7 +81,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
                     fprintf(stderr, "[ERROR] line %u, format error.\n", lincCount);
                 }
             }
-            else if (strcmp(tokens[0], "ClientSyncPathFilename"))
+            else if (strcmp(tokens[0], "ClientSyncPathFilename") == 0)
             {
                 if (_c.clientSyncPathFilename != 0)
                 {
@@ -95,7 +95,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
                     _c.clientSyncPathFilename = (char *)1;
                 }
             }
-            else if (strcmp(tokens[0], "ServerSyncPathFilename"))
+            else if (strcmp(tokens[0], "ServerSyncPathFilename") == 0)
             {
                 if (_c.serverSyncPathFilename != 0)
                 {
