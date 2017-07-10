@@ -15,4 +15,7 @@ unsigned long GetThreadID(pthread_t thread);
 
 void time2tm(const time_t *timer, struct tm *t);
 
+int isDir(unsigned short mask);
+int isFile(unsigned short mask);
+
 #endif

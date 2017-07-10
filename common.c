@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys/stat.h>
 
 #include <pthread.h>
 
@@ -96,4 +97,14 @@ void time2tm(const time_t *timer, struct tm *t)
     _t = localtime(timer);
     memcpy(t, _t, sizeof(*_t));
     pthread_mutex_unlock(&_mutex_time2tm);
+}
+
+int isDir(unsigned short mask)
+{
+    return ((mask)&S_IFMT) & S_IFDIR ? 1 : 0;
+}
+
+int isFile(unsigned short mask)
+{
+    return ((mask)&_S_IFMT) & _S_IFREG ? 1 : 0;
 }
