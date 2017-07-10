@@ -6,7 +6,7 @@
 
 int InitCommon(void);
 
-void *MemoryRequest(size_t size);
+void *MemoryRequest(size_t size, const char *sourceFile, unsigned int lineNumber);
 void MemoryRelease(void *ptr);
 unsigned int _DebugGetReleaseCounter(void);
 
