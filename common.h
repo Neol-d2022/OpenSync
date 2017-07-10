@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <pthread.h>
+#include <time.h>
 
 int InitCommon(void);
 
@@ -11,5 +12,7 @@ void MemoryRelease(void *ptr);
 unsigned int _DebugGetReleaseCounter(void);
 
 unsigned long GetThreadID(pthread_t thread);
+
+void time2tm(const time_t *timer, struct tm *t);
 
 #endif

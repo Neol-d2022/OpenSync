@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include <pthread.h>
 
@@ -14,11 +15,12 @@ static void _MemoryRequestFailed(size_t size, const char *sourceFile, unsigned i
 }
 
 static pthread_rwlock_t _rwl_releaseCounter;
+static pthread_mutex_t _mutex_time2tm;
 static unsigned int _releaseCounter = 0;
 
 int InitCommon(void)
 {
-    return pthread_rwlock_init(&_rwl_releaseCounter, 0);
+    return pthread_rwlock_init(&_rwl_releaseCounter, 0) + pthread_mutex_init(&_mutex_time2tm, 0);
 }
 
 void *MemoryRequest(size_t size, const char *sourceFile, unsigned int lineNumber)
@@ -85,4 +87,13 @@ unsigned long GetThreadID(pthread_t thread)
     unsigned long ret = 0;
     memcpy(&ret, &thread, sizeof(thread));
     return ret;
+}
+
+void time2tm(const time_t *timer, struct tm *t)
+{
+    struct tm *_t;
+    pthread_mutex_lock(&_mutex_time2tm);
+    _t = localtime(timer);
+    memcpy(t, _t, sizeof(*_t));
+    pthread_mutex_unlock(&_mutex_time2tm);
 }
