@@ -18,4 +18,6 @@ int LoadConfigFile(const char *filename, Configuration_t *c);
 int IsClientEnabled(const Configuration_t *c);
 int IsServerEnabled(const Configuration_t *c);
 
+char **LoadSyncPathIntoArray(const char *filename, unsigned int *_count);
+
 #endif

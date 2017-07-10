@@ -136,3 +136,58 @@ int IsServerEnabled(const Configuration_t *c)
 {
     return (c->functionFlag & SERVER_FUNCTION_FLAG) ? 1 : 0;
 }
+
+typedef struct _linkedSyncPath_struct_t
+{
+    char *filename;
+    struct _linkedSyncPath_struct_t *next;
+} _linkedSyncPath_t;
+
+char **LoadSyncPathIntoArray(const char *filename, unsigned int *_count)
+{
+    char buf[1024];
+    FILE *f;
+    _linkedSyncPath_t *head, *n, **cur, *_cur;
+    size_t len;
+    char **ret;
+    unsigned int count, i;
+
+    f = fopen(filename, "r");
+    if (!f)
+    {
+        fprintf(stderr, "[ERROR] Cannot open \"%s\".\n", filename);
+        return 0;
+    }
+
+    head = 0;
+    count = 0;
+    cur = &head;
+    while (fgets(buf, sizeof(buf), f))
+    {
+        StringsRemoveNewline(buf);
+        n = (_linkedSyncPath_t *)MemoryRequest(sizeof(*n), __FILE__, __LINE__);
+        n->filename = (char *)MemoryRequest((len = strlen(buf)) + 1, __FILE__, __LINE__);
+        memcpy(n->filename, buf, len);
+        n->filename[len] = '\0';
+        *cur = n;
+        cur = &(n->next);
+        count += 1;
+    }
+    *cur = 0;
+
+    ret = (char **)MemoryRequest(sizeof(*ret) * (count + 1), __FILE__, __LINE__);
+    _cur = head;
+    for (i = 0; i < count; i += 1)
+    {
+        n = _cur->next;
+        ret[i] = _cur->filename;
+        MemoryRelease(_cur);
+        _cur = n;
+    }
+    ret[count] = 0;
+    fclose(f);
+
+    if (_count)
+        *_count = count;
+    return ret;
+}
