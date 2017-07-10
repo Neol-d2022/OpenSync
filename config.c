@@ -32,6 +32,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
 
     lincCount = 0;
     memset(&_c, 0, sizeof(_c));
+    memset(c, 0, sizeof(*c));
     while (fgets(buf, sizeof(buf), f))
     {
         StringsRemoveNewline(buf);
