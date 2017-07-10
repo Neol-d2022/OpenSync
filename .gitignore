@@ -56,3 +56,6 @@ OpenSync
 
 # VS Code
 .vscode/
+
+# Program Config File
+config.ini

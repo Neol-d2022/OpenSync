@@ -11,4 +11,7 @@ typedef struct
 
 int LoadConfigFile(const char *filename, Configuration_t *c);
 
+int IsClientEnabled(const Configuration_t *c);
+int IsServerEnabled(const Configuration_t *c);
+
 #endif

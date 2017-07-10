@@ -90,3 +90,13 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
     fclose(f);
     return 0;
 }
+
+int IsClientEnabled(const Configuration_t *c)
+{
+    return (c->functionFlag & CLIENT_FUNCTION_FLAG) ? 1 : 0;
+}
+
+int IsServerEnabled(const Configuration_t *c)
+{
+    return (c->functionFlag & SERVER_FUNCTION_FLAG) ? 1 : 0;
+}
