@@ -6,6 +6,8 @@
 
 typedef struct
 {
+    char *clientSyncPathFilename;
+    char *serverSyncPathFilename;
     unsigned char functionFlag;
 } Configuration_t;
 

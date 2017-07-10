@@ -20,6 +20,7 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
     Configuration_t _c;
     FILE *f;
     char **tokens;
+    size_t len;
     unsigned int ntokens, i, lincCount, in;
 
     f = fopen(filename, "r");
@@ -77,6 +78,34 @@ int LoadConfigFile(const char *filename, Configuration_t *c)
                 else
                 {
                     fprintf(stderr, "[ERROR] line %u, format error.\n", lincCount);
+                }
+            }
+            else if (strcmp(tokens[0], "ClientSyncPathFilename"))
+            {
+                if (_c.clientSyncPathFilename != 0)
+                {
+                    fprintf(stderr, "[ERROR] line %u, duplicated settings.\n", lincCount);
+                }
+                else
+                {
+                    c->clientSyncPathFilename = MemoryRequest((len = strlen(tokens[1])) + 1, __FILE__, __LINE__);
+                    memcpy(c->clientSyncPathFilename, tokens[1], len);
+                    c->clientSyncPathFilename[len] = '\0';
+                    _c.clientSyncPathFilename = (char *)1;
+                }
+            }
+            else if (strcmp(tokens[0], "ServerSyncPathFilename"))
+            {
+                if (_c.serverSyncPathFilename != 0)
+                {
+                    fprintf(stderr, "[ERROR] line %u, duplicated settings.\n", lincCount);
+                }
+                else
+                {
+                    c->serverSyncPathFilename = MemoryRequest((len = strlen(tokens[1])) + 1, __FILE__, __LINE__);
+                    memcpy(c->serverSyncPathFilename, tokens[1], len);
+                    c->serverSyncPathFilename[len] = '\0';
+                    _c.serverSyncPathFilename = (char *)1;
                 }
             }
             else
