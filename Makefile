@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Ofast
 LFLAGS=
 
-OBJS=main.o client.o server.o
+OBJS=main.o client.o server.o common.o
 DEPS=
 LIBS=-lpthread
 

@@ -3,13 +3,14 @@
 
 #include "client.h"
 #include "server.h"
+#include "common.h"
 
 void *ClientThreadEntry(void *param)
 {
 #ifdef DEBUG
     pthread_t selfThread = pthread_self();
     
-    printf("[DEBUG] %u in ClientThreadEntry(%s, %i)\n", (unsigned)selfThread.x, __FILE__, __LINE__);
+    printf("[DEBUG] %u in ClientThreadEntry(%s, %i)\n", (unsigned int)GetThreadID(selfThread), __FILE__, __LINE__);
 #endif
     ClientInit();
     return param;
@@ -20,7 +21,7 @@ void *ServerThreadEntry(void *param)
 #ifdef DEBUG
     pthread_t selfThread = pthread_self();
 
-    printf("[DEBUG] %u in ServerThreadEntry(%s, %i)\n", (unsigned)selfThread.x, __FILE__, __LINE__);
+    printf("[DEBUG] %u in ServerThreadEntry(%s, %i)\n", (unsigned int)GetThreadID(selfThread), __FILE__, __LINE__);
 #endif
     ServerInit();
     return param;
