@@ -5,6 +5,16 @@
 #include <pthread.h>
 #include <time.h>
 
+#define INDEX_CACHE_FILENAME ".index.cache"
+
+typedef struct
+{
+    _off_t fileSize;
+    time_t fileMTime;
+    unsigned int fileCRC32;
+    char *filename;
+} CachedFileIndex_t;
+
 int InitCommon(void);
 
 void *MemoryRequest(size_t size, const char *sourceFile, unsigned int lineNumber);
